@@ -114,7 +114,7 @@ export default class IconFont extends cc.Component {
     }
     private contentNode: cc.Node = null;
 
-    start() {
+    onLoad() {
         this.contentNode = this.node.getChildByName('content');
         if (cc.isValid(this.contentNode)) {
             this.contentNode.destroy();
