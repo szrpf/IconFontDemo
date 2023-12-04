@@ -114,11 +114,11 @@ export default class IconFont extends cc.Component {
     }
     private contentNode: cc.Node = null;
 
-    onLoad() {
+    start() {
         this.contentNode = this.node.getChildByName('content');
-        if(cc.isValid(this.contentNode)){
-            this.contentNode.removeFromParent();
+        if (cc.isValid(this.contentNode)) {
             this.contentNode.destroy();
+            this.contentNode.removeFromParent();
         }
         this.contentNode = new cc.Node('content');
         this.contentNode.setParent(this.node);
@@ -248,6 +248,7 @@ export default class IconFont extends cc.Component {
                     node.name = frameName;
                     spt = node.getComponent(cc.Sprite);
                     spt.spriteFrame = this.atlas ? this.atlas.getSpriteFrame(frameName) : null;
+                    !spt.spriteFrame && (CC_EDITOR ? cc.warn(`IconFont未在${this.node?.parent?.parent.name}/${this.node?.parent.name}/${this.node.name}找到${frameName}!`) : console.warn(`IconFont未在${this.node?.parent?.parent.name}/${this.node?.parent.name}/${this.node.name}找到${frameName}!`));
                     spt.sizeMode = cc.Sprite.SizeMode.RAW;
                     node.color = color;
                     node['isUseNodeColor'] = isUseNodeColor;
@@ -259,6 +260,7 @@ export default class IconFont extends cc.Component {
                 spt = node.addComponent(cc.Sprite);
                 node.setParent(this.contentNode);
                 spt.spriteFrame = this.atlas ? this.atlas.getSpriteFrame(frameName) : null;
+                !spt.spriteFrame && (CC_EDITOR ? cc.warn(`IconFont未在${this.node?.parent?.parent.name}/${this.node?.parent.name}/${this.node.name}找到${frameName}!`) : console.warn(`IconFont未在${this.node?.parent?.parent.name}/${this.node?.parent.name}/${this.node.name}找到${frameName}!`));
                 node.color = color;
                 node['isUseNodeColor'] = isUseNodeColor;
                 node.width = spt.spriteFrame ? node.width * fontHeight / node.height : tabW;
@@ -314,9 +316,9 @@ export default class IconFont extends cc.Component {
     }
 
     protected onDestroy() {
-        if(cc.isValid(this.contentNode)){
-            this.contentNode.removeFromParent();
+        if (cc.isValid(this.contentNode)) {
             this.contentNode.destroy();
+            this.contentNode.removeFromParent();
         }
         this.node.targetOff(this);
     }
