@@ -115,18 +115,6 @@ export default class IconFont extends cc.Component {
     private contentNode: cc.Node = null;
 
     onLoad() {
-        this.contentNode = this.node.getChildByName('content');
-        if (cc.isValid(this.contentNode)) {
-            this.contentNode.destroy();
-            this.contentNode.removeFromParent();
-        }
-        this.contentNode = new cc.Node('content');
-        this.contentNode.setParent(this.node);
-        this.contentNode.setSiblingIndex(0);
-        this.contentNode.anchorX = 0;
-        this.contentNode.anchorY = 1;
-        this.contentNode['_objFlags'] |= cc.Object['Flags'].HideInHierarchy;
-        this.contentNode['_objFlags'] |= cc.Object['Flags'].LockedInEditor;
         this.updateContent();
         this.updateAlignH();
         this.updateAlignV();
@@ -150,6 +138,19 @@ export default class IconFont extends cc.Component {
     }
 
     private updateContent() {
+        if (this.contentNode === null) {
+            this.contentNode = this.node.getChildByName('content');
+            if (this.contentNode === null) {
+                this.contentNode = new cc.Node('content');
+                this.contentNode.setParent(this.node);
+                this.contentNode.setSiblingIndex(0);
+                this.contentNode.anchorX = 0;
+                this.contentNode.anchorY = 1;
+            }
+            this.contentNode['_objFlags'] = 0;
+            this.contentNode['_objFlags'] |= cc.Object['Flags'].HideInHierarchy;
+            this.contentNode['_objFlags'] |= cc.Object['Flags'].LockedInEditor;
+        }
         this.contentNode.width = 0;
         this.contentNode.height = 0;
         let str = this.string;
